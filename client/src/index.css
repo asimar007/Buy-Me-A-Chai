@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Additional desktop styling */
+@media (min-width: 1024px) {
+  .font-circular {
+    font-size: 2.5rem;
+  }
+  .text-slate-900 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .text-teal-500 {
+    background: linear-gradient(to right, #4fd1c5, #81e6d9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
