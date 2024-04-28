@@ -21,7 +21,8 @@ function App() {
 
   useEffect(() => {
     const connectWallet = async () => {
-      const contractAddress = " Your Contract Address";
+      // Get your Contract address after compile the code (npx hardhat run  --network sepolia scripts/finalDeploy.js)
+      const contractAddress = "Your Contract Address";
       const contractABI = abi.abi;
       try {
         const { ethereum } = window;

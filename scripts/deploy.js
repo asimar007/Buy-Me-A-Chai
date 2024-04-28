@@ -40,8 +40,8 @@ async function main() {
 
   const amount = { value: hre.ethers.utils.parseEther("1") }
   await contract.connect(from1).buyChai("from1", "Asim", amount);
-  await contract.connect(from2).buyChai("from2", "Payel", amount);
-  await contract.connect(from3).buyChai("from3", "Hamida", amount);
+  await contract.connect(from2).buyChai("from2", "Noim", amount);
+  await contract.connect(from3).buyChai("from3", "Hasan", amount);
 
   // After Buy Chai
   console.log("After Buy Chai");
