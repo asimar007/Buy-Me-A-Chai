@@ -2,6 +2,12 @@
 
 🍵 My project reimagines support for creators through Web3 technology. Unlike Buy Me a Chai, it's decentralized, transparent, and inclusive. Creators showcase their work, supporters donate cryptocurrency directly via Ethereum smart contracts, ensuring transparency and global accessibility. With community governance and smart contract automation, it's a platform where creativity flourishes, and contributions matter. ☕️
 
+
+
+https://github.com/asimar007/Buy-Me-A-Chai/assets/108481922/0fe49d11-5d6c-4ae7-aa81-0e938ac4ce90
+
+
+
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally. To get a local copy up and running follow these simple example steps.
