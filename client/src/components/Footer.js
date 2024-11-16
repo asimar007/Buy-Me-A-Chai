@@ -7,12 +7,12 @@ const Footer = () => {
                 <div className="text-sm mb-4 lg:mb-0">&copy; Buy Me a Chai</div>
                 <nav className="text-sm flex flex-wrap justify-center lg:justify-start">
                     <ul className="flex flex-wrap justify-center lg:justify-start">
-                        <li className="mr-4 mb-2 lg:mb-0"><a href="#" className="hover:text-gray-400">About</a></li>
-                        <li className="mr-4 mb-2 lg:mb-0"><a href="#" className="hover:text-gray-400">Help Center</a></li>
-                        <li className="mr-4 mb-2 lg:mb-0"><a href="#" className="hover:text-gray-400">Apps</a></li>
-                        <li className="mr-4 mb-2 lg:mb-0"><a href="#" className="hover:text-gray-400">Resources</a></li>
-                        <li className="mr-4 mb-2 lg:mb-0"><a href="#" className="hover:text-gray-400">Privacy</a></li>
-                        <li className="mr-4 mb-2 lg:mb-0"><a href="#" className="hover:text-gray-400">Terms</a></li>
+                        <li className="mr-4 mb-2 lg:mb-0"><a href="/about" className="hover:text-gray-400">About</a></li>
+                        <li className="mr-4 mb-2 lg:mb-0"><a href="/help" className="hover:text-gray-400">Help Center</a></li>
+                        <li className="mr-4 mb-2 lg:mb-0"><a href="/apps" className="hover:text-gray-400">Apps</a></li>
+                        <li className="mr-4 mb-2 lg:mb-0"><a href="/resources" className="hover:text-gray-400">Resources</a></li>
+                        <li className="mr-4 mb-2 lg:mb-0"><a href="/privacy" className="hover:text-gray-400">Privacy</a></li>
+                        <li className="mr-4 mb-2 lg:mb-0"><a href="/terms" className="hover:text-gray-400">Terms</a></li>
                     </ul>
                 </nav>
                 <div className="flex justify-center pt-4 lg:pt-0 lg:col-end-13">

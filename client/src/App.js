@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import abi from "./contract/chai.json"
-import './App.css';
+import abi from "./contract/chai.json";
+import { Toaster } from 'react-hot-toast';
 
-import Navbar from './components/Navbar'
-import Mid from './components/Mid'
-import Buy from './components/Buy'
-import Memos from './components/Memos'
-import Footer from './components/Footer'
+import Navbar from './components/Navbar';
+import Mid from './components/Mid';
+import Buy from './components/Buy';
+import Memos from './components/Memos';
+import Footer from './components/Footer';
+
+
 
 function App() {
   const [state, setState] = useState({
@@ -16,63 +18,81 @@ function App() {
     contract: null,
   });
 
-  const [account, setAccount] = useState("None");
+  const [account, setAccount] = useState(null);
   const [formattedAccount, setFormattedAccount] = useState("");
 
   useEffect(() => {
-    const connectWallet = async () => {
-      // Get your Contract address after compile the code (npx hardhat run  --network sepolia scripts/finalDeploy.js)
-      const contractAddress = "Your Contract Address";
-      const contractABI = abi.abi;
-      try {
-        const { ethereum } = window;
+    const storedAccount = localStorage.getItem("account");
+    const storedFormattedAccount = localStorage.getItem("formattedAccount");
 
-        if (ethereum) {
-          const accounts = await ethereum.request({
-            method: "eth_requestAccounts",
-          });
-          const account = accounts[0]; // Use the first account
+    if (storedAccount) {
+      setAccount(storedAccount);
+      setFormattedAccount(storedFormattedAccount);
 
-          window.ethereum.on("chainChanged", () => {
-            window.location.reload();
-          });
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(process.env.REACT_APP_CONTRACT_ADDRESS, abi.abi, signer);
 
-          window.ethereum.on("accountsChanged", () => {
-            window.location.reload();
-          });
-
-          const provider = new ethers.providers.Web3Provider(ethereum);
-          const signer = provider.getSigner();
-          const contract = new ethers.Contract(
-            contractAddress,
-            contractABI,
-            signer
-          );
-          setAccount(account);
-          const formattedAccount = `${account.substring(0, 6)}...${account.substring(account.length - 4)}`;
-          setFormattedAccount(formattedAccount);
-          setState({ provider, signer, contract });
-        } else {
-          alert("Please install MetaMask");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    connectWallet();
+      setState({ provider, signer, contract });
+    }
   }, []);
+
+  const connectWallet = async () => {
+    const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+    const contractABI = abi.abi;
+
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        alert("Please install MetaMask");
+        return;
+      }
+
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+      if (accounts.length > 0) {
+        const currentAccount = accounts[0];
+        setAccount(currentAccount);
+        const formatted = `${currentAccount.substring(0, 6)}...${currentAccount.substring(currentAccount.length - 4)}`;
+        setFormattedAccount(formatted);
+
+        // Store account information in localStorage
+        localStorage.setItem("account", currentAccount);
+        localStorage.setItem("formattedAccount", formatted);
+
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(contractAddress, contractABI, signer);
+        setState({ provider, signer, contract });
+      }
+
+      ethereum.on("chainChanged", () => window.location.reload());
+      ethereum.on("accountsChanged", () => window.location.reload());
+
+    } catch (error) {
+      console.error("Error connecting to wallet:", error);
+    }
+  };
+
+  const disconnectWallet = () => {
+    setAccount(null);
+    setFormattedAccount("");
+    setState({
+      provider: null,
+      signer: null,
+      contract: null,
+    });
+
+    // Clear the saved wallet info from localStorage
+    localStorage.removeItem("account");
+    localStorage.removeItem("formattedAccount");
+  };
 
   return (
     <>
-      <Navbar />
+      <Toaster /> {/* Add Toaster here */}
+      <Navbar connectWallet={connectWallet} disconnectWallet={disconnectWallet} account={formattedAccount} />
       <Mid />
-      <section className="my-10 mx-10 sm:my-10 sm:mx-10 md:mx-auto md:w-2/3 md:mt-10 md:drop-shadow-lg tracking-wider flex items-center justify-center">
-        <div className="px-4 sm:px-8 sm:py-4 md:px-8 md:py-4 my-20 mx-4 sm:mx-24 md:mx-0 text-center md:rounded-full bg-yellow-200 w-full sm:w-2/3">
-          <span className="font-circular text-lg md:text-2xl text-gray-600 leading-normal">
-            Connected Account: {formattedAccount}
-          </span>
-        </div>
-      </section>
       <Buy state={state} />
       <Memos state={state} />
       <Footer />
